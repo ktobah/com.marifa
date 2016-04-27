@@ -1,35 +1,85 @@
 package com.marifa.parser;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import com.cybozu.labs.langdetect.LangDetectException;
+import com.marifa.mappings.MapColumnToProperty;
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
-/**
- * Created by AHMED on 1/10/2016.
+/*
+ * The ParseExcelFile class parses the excel file and create a pre-formatted array
+ * that contains all the columns mapped to the bibo ontology properties..
+ * @param: inputFile the file used to extract the data.
  */
 public class ParseExcelFile {
 
-    private static HSSFWorkbook workbook;
-    private static HSSFSheet sheet;
+    private static ArrayList fileData = new ArrayList();
+    private String inputFile, namespacePrefix;
+    private MapColumnToProperty mapColumnToProperty;
 
-    public ParseExcelFile(){
+    public ParseExcelFile(String inputFile, String namespacePrefix) {
+        this.inputFile = inputFile;
+        this.namespacePrefix = namespacePrefix;
+    }
 
+    public static ArrayList getFileData(){
+        return fileData;
+    }
+
+    public static void main(String[] args) throws IOException, LangDetectException {
+        /*ParseExcelFile test = new ParseExcelFile("C:\\Users\\AHMED\\Desktop\\pub.xls");
+        test.parse();*/
+    }
+
+    public void parse() throws IOException, LangDetectException {
+        File inputWorkbook = new File(inputFile);
+        Workbook workbook;
         try {
-            FileInputStream excelFile = new FileInputStream(new File("C:\\Users\\AHMED\\Desktop\\pub.xls"));
-            workbook = new HSSFWorkbook(excelFile);
-            sheet = workbook.getSheetAt(0);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            workbook = Workbook.getWorkbook(inputWorkbook);
+
+            // Get the first sheet
+            Sheet sheet = workbook.getSheet(0);
+
+            //Loop over the first row and map the columns' headers.
+            Cell cell;
+            for (int columnsIndex = sheet.getColumns() - 1 ; columnsIndex >= 0; columnsIndex--){
+                cell = sheet.getCell(columnsIndex, 0);
+                fileData.add(cell.getContents());
+            }
+            // Loop over first the whole content of the excel file
+            // Extract the content and then append it an array (formatted)
+            /*for (int i = 0; i < sheet.getRows(); i++) {
+                for (int j = sheet.getColumns() - 1; j >= 0; j--) {
+                    cell = sheet.getCell(j, i);
+                    fileData.add(cell.getContents());
+                    *//*CellType type = cell.getType();
+                    if (type == CellType.LABEL) {
+                        System.out.println("I got a label "
+                                + cell.getContents());
+                    }
+
+                    if (type == CellType.NUMBER) {
+                        System.out.println("I got a number "
+                                + cell.getContents());
+                    }*//*
+                }
+            }*/
+            //printContent(fileData);
+            mapColumnToProperty = new MapColumnToProperty(fileData, namespacePrefix);
+        } catch (BiffException e) {
             e.printStackTrace();
         }
     }
 
-    public static HSSFSheet getSheet(){
-        return sheet;
+    private void printContent(ArrayList list){
+        for (int i=0; i < list.size(); i++){
+            System.out.println(list.get(i).toString());
+        }
     }
+
 }

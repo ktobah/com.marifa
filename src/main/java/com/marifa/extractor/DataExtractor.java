@@ -1,14 +1,7 @@
 package com.marifa.extractor;
 
 import com.marifa.discovery.FindSimilarResource;
-import com.marifa.parser.ParseExcelFile;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellRange;
-import org.apache.poi.ss.usermodel.Row;
-
-import java.util.Iterator;
 
 /**
  * Created by AHMED on 1/10/2016.
