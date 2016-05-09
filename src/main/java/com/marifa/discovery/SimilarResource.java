@@ -17,7 +17,7 @@ public class SimilarResource {
     private Literal literal, literalTitle;
     private Statement statement;
     private ResultSet results, resultsAr;
-    private int count, countAr;
+    private int count, countAr, countWikiData;
     private Property property;
 
     public SimilarResource(Model model) {
@@ -43,6 +43,9 @@ public class SimilarResource {
                 addTripleToGraph(queryExecution, queryExecutionAr, statement.getSubject());
             }
         }
+        Mappings.logMessage(Level.INFO, "Number of discovered triples in dbpedia.org: " + count);
+        Mappings.logMessage(Level.INFO, "Number of discovered triples in wikidata.org: " + countWikiData);
+        Mappings.logMessage(Level.INFO, "Number of discovered triples in ar.dbpedia.org: " + countAr);
         Mappings.logMessage(Level.INFO, "Discovery finished successfully. Total number of discovered triples: " + newModel.size());
         model.add(newModel);
     }
@@ -53,12 +56,14 @@ public class SimilarResource {
             resultsAr = query2.execSelect();
             countAr = 0;
             count = 0;
+            countWikiData = 0;
             Mappings.logMessage(Level.INFO, "Finding similar resource(s) for: <" + resource.getURI() + ">");
             if (results.hasNext()) {
                 while (results.hasNext()) {
                     solution = results.nextSolution();
                     newModel.add(resource, property, solution.getResource("subject"));
-                    count++;
+                    if (solution.getResource("subject").getURI().contains("wikidata")) countWikiData++;
+                    else count++;
                     Mappings.logMessage(Level.INFO, "Resource found: <" + solution.getResource("subject").getURI() + ">");
                 }
             }
@@ -70,10 +75,10 @@ public class SimilarResource {
                     Mappings.logMessage(Level.INFO, "Resource found: <" + solution.getResource("subject").getURI() + ">");
                 }
             }
-            if (count > 0 & countAr > 0) {
-                Mappings.logMessage(Level.INFO, "Total similar resource(s) for <" + resource.getURI() + "> found: " + (count + countAr));
-            } else if (count > 0 & countAr == 0) {
-                Mappings.logMessage(Level.INFO, "Total similar resource(s) for <" + resource.getURI() + "> found: " + count);
+            if ((count > 0 | countWikiData > 0) & countAr > 0) {
+                Mappings.logMessage(Level.INFO, "Total similar resource(s) for <" + resource.getURI() + "> found: " + (count + countWikiData + countAr));
+            } else if ((count > 0 | countWikiData > 0) & countAr == 0) {
+                Mappings.logMessage(Level.INFO, "Total similar resource(s) for <" + resource.getURI() + "> found: " + count + countWikiData);
             } else if (count == 0 & countAr > 0) {
                 Mappings.logMessage(Level.INFO, "Total similar resource(s) for <" + resource.getURI() + "> found: " + countAr);
             } else {
