@@ -70,7 +70,7 @@ public class Marifa {
                         rdfExtractor.writeGraphToFile(args[2], "RDF/XML");
                         break;
                 }
-                Mappings.logMessage(Level.INFO, "Total time elapsed: " + TimeUnit.NANOSECONDS.toMinutes((System.nanoTime() - startTime)) + "minutes");
+                Mappings.logMessage(Level.INFO, "Total time elapsed: " + TimeUnit.NANOSECONDS.toMinutes((System.nanoTime() - startTime)) + " minutes");
             } else {
                 if (args[1] == null | args[1].isEmpty())
                     Mappings.logMessage(Level.WARN, "The namespace you entered is not a valid IRI. Please try again!");

@@ -18,6 +18,7 @@ public class SimilarResource {
     private Statement statement;
     private ResultSet results, resultsAr;
     private int count, countAr, countWikiData;
+    private int dbpediaCount = 0, arBbpediaCount = 0, wikidataCount = 0;
     private Property property;
 
     public SimilarResource(Model model) {
@@ -43,10 +44,7 @@ public class SimilarResource {
                 addTripleToGraph(queryExecution, queryExecutionAr, statement.getSubject());
             }
         }
-        Mappings.logMessage(Level.INFO, "Number of discovered triples in dbpedia.org: " + count);
-        Mappings.logMessage(Level.INFO, "Number of discovered triples in wikidata.org: " + countWikiData);
-        Mappings.logMessage(Level.INFO, "Number of discovered triples in ar.dbpedia.org: " + countAr);
-        Mappings.logMessage(Level.INFO, "Discovery finished successfully. Total number of discovered triples: " + newModel.size());
+        generateDiscoveryStats(newModel);
         model.add(newModel);
     }
 
@@ -88,5 +86,24 @@ public class SimilarResource {
             queryExecution.close();
             queryExecutionAr.close();
         }
+    }
+
+    private void generateDiscoveryStats(Model model) {
+        RDFNode node;
+        NodeIterator nodeIterator = model.listObjects();
+        while (nodeIterator.hasNext()) {
+            node = nodeIterator.nextNode();
+            if (node.toString().contains("wikidata")) {
+                wikidataCount++;
+            } else if (node.toString().contains("ar.dbpedia.org")) {
+                arBbpediaCount++;
+            } else {
+                dbpediaCount++;
+            }
+        }
+        Mappings.logMessage(Level.INFO, "Number of discovered triples in dbpedia.org: " + dbpediaCount);
+        Mappings.logMessage(Level.INFO, "Number of discovered triples in wikidata.org: " + wikidataCount);
+        Mappings.logMessage(Level.INFO, "Number of discovered triples in ar.dbpedia.org: " + arBbpediaCount);
+        Mappings.logMessage(Level.INFO, "Discovery finished successfully. Total number of discovered triples: " + model.size());
     }
 }
