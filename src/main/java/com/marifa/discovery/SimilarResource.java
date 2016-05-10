@@ -92,10 +92,10 @@ public class SimilarResource {
         RDFNode node;
         NodeIterator nodeIterator = model.listObjects();
         while (nodeIterator.hasNext()) {
-            node = nodeIterator.nextNode();
-            if (node.toString().contains("wikidata")) {
+            node = nodeIterator.next();
+            if (node.asResource().getURI().contains("wikidata")) {
                 wikidataCount++;
-            } else if (node.toString().contains("ar.dbpedia.org")) {
+            } else if (node.asResource().getURI().contains("ar.dbpedia.org")) {
                 arBbpediaCount++;
             } else {
                 dbpediaCount++;
