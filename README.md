@@ -1,13 +1,13 @@
 # Description
 
-**Marifa** is a Java framword developped to help publishers extract useful RDF data from catalogs and link it with other well-known datasets, such as [dbpedia.org](http://dbpedia.org/), [ar.dbpedia.org](http://ar.dbpedia.org/), and [wikidata.org](http://wikidata.org/).
+**Marifa** is a Java framework developed to help publishers extract useful RDF data from catalogs and link it with other well-known datasets, such as [dbpedia.org](http://dbpedia.org/), [ar.dbpedia.org](http://ar.dbpedia.org/), and [wikidata.org](http://wikidata.org/).
 
 # Using Marifa
 
 To use Marifa, please follow the following steps:
   1.  **Clone** the project to your local machine.
   2.  **Complie** the project (Maven).
-  3.  **Run** the framework (see the next section).
+  3.  **Run** the framework (see the [next section](https://github.com/ktobah/com.marifa/tree/master#running-the-framework)).
   
 # Running the Framework
 
@@ -20,7 +20,9 @@ Where:
 * **input**: represents the catalog itself, for example: [pub.xls](data/pub.xls).
 * **namespace**: represents the namespace used by the publisher, for example: http://www.marefah.com/ 
 * **output_path**: represents the output path without a file name, for instance: ../Desktop/ 
-* **format** [Otional]: represents the serialization format. Possible formats are (without quotes): "RDF/XML-ABBREV" "RDF/XML" "TURTLE" "N-TRIPLES" "N3" "JSON-LD" "RDF/JSON". If no formar is specified, then "RDF/XML" is used.
+* **format** [Otional]: represents the serialization format. Possible formats are (without quotes): <br>
+  "RDF/XML-ABBREV" "RDF/XML" "TURTLE" "N-TRIPLES" "N3" "JSON-LD" "RDF/JSON". <br>
+  If no format is specified, then "RDF/XML" is used.
 
 # Issues & Suggestions
 
