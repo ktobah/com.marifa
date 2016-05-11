@@ -7,7 +7,7 @@
 To use Marifa, please follow the following steps:
   1.  **Clone** the project to your local machine.
   2.  **Complie** the project (Maven).
-  3.  **Run** the framework (see the [next section](https://github.com/ktobah/com.marifa/tree/master#running-the-framework)).
+  3.  **Run** the framework (see the [next section](#running-the-framework)).
   
 # Running the Framework
 
